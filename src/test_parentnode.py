@@ -50,6 +50,24 @@ class TestParentNode(unittest.TestCase):
             parent_node.to_html(), '<div class="pretty"><b>child node</b></div>'
         )
 
+    def test_to_html_parent_empty_props_dict(self):
+        child_node = LeafNode("b", "child node")
+        parent_node = ParentNode("div", [child_node], {})
+        self.assertEqual(
+            parent_node.to_html(), "<div><b>child node</b></div>"
+        )
+
+    def test_to_html_parent_no_tag(self):
+        child_node = LeafNode("b", "child")
+        parent_node = ParentNode(None, [child_node])
+        with self.assertRaises(ValueError):
+            s = parent_node.to_html()
+
+    def test_to_html_parent_no_child(self):
+        parent_node = ParentNode("div", None)
+        with self.assertRaises(ValueError):
+            s = parent_node.to_html()
+
 
 if __name__ == "__main__":
     unittest.main()
